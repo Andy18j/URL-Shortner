@@ -5,6 +5,48 @@ const {auth} = require('../auth/middleware');
 
 const urlRouter = express.Router()
 
+
+/**
+ * @swagger
+ * tags:
+ *   name: URL Shortener
+ *   description: URL shortening operations
+ */
+
+/**
+ * @swagger
+ * /urls/shorten:
+ *   post:
+ *     summary: Shorten a URL
+ *     tags: [URL Shortener]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               originalUrl:
+ *                 type: string
+ *                 description: The URL to be shortened
+ *                 example: https://www.example.com/very-long-url
+ *     responses:
+ *       200:
+ *         description: Successfully shortened URL
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 originalUrl:
+ *                   type: string
+ *                 shortUrl:
+ *                   type: string
+ *       500:
+ *         description: Internal server error
+ */
 urlRouter.post("/shorten",auth,async(req,res)=>{
     const { originalUrl } = req.body;
     const user = req.userId;
@@ -20,7 +62,27 @@ urlRouter.post("/shorten",auth,async(req,res)=>{
         res.status(500).json({error: error.message});
     }
 })
-
+/**
+ * @swagger
+ * /{shortUrl}:
+ *   get:
+ *     summary: Redirect to the original URL
+ *     tags: [URL Shortener]
+ *     parameters:
+ *       - in: path
+ *         name: shortUrl
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The shortened URL code
+ *     responses:
+ *       302:
+ *         description: Redirects to the original URL
+ *       404:
+ *         description: URL not found
+ *       500:
+ *         description: Internal server error
+ */
 urlRouter.get("/:shortUrl",async(req,res)=>{
     try{
         const url = await urlModel.findOne({shortUrl: req.params.shortUrl});

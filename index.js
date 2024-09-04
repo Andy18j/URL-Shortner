@@ -3,6 +3,7 @@ const { connection } = require("mongoose")
 const {config} = require("./config/db")
 const { userRouter } = require('./routes/user.routes')
 const { urlRouter } = require('./routes/url.routes')
+const swaggerDocs = require('./swagger');
 require("dotenv").config()
 const cors = require("cors")
 
@@ -11,6 +12,10 @@ const cors = require("cors")
 const app = express()
 app.use(express.json())
 app.use(cors())
+
+// Setup Swagger
+swaggerDocs(app);
+
 
 app.use("/api/users", userRouter)
 app.use("/api/urls", urlRouter)

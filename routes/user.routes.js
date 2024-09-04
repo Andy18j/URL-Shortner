@@ -7,6 +7,56 @@ const jwt = require("jsonwebtoken")
 
 const userRouter = express.Router()
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management operations
+ */
+
+/**
+ * @swagger
+ * /users/signup:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the user
+ *                 example: johndoe
+ *               password:
+ *                 type: string
+ *                 description: The password of the user
+ *                 example: password123
+ *     responses:
+ *       200:
+ *         description: Successfully registered the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Signup Successfully..🥳
+ *       401:
+ *         description: User already exists or signup failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: This user already exists..please try another username
+ */
 userRouter.post('/signup',async(req,res)=>{
     try{
          const {username,password} = req.body
@@ -26,7 +76,53 @@ userRouter.post('/signup',async(req,res)=>{
 
     }
 })
-
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Authenticate a user and get a token
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: The username of the user
+ *                 example: johndoe
+ *               password:
+ *                 type: string
+ *                 description: The password of the user
+ *                 example: password123
+ *     responses:
+ *       201:
+ *         description: Successfully logged in and returned a token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Login Successfully..
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for the authenticated user
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NmQ4M2Q3ZGM1N2VkNTY2OTc0MWRhNCIsImlhdCI6MTY4MTgyMDA0MywiZXhwIjoxNjgxODI3NjQzfQ.SXbhEctnPLzFnXZHeCOHQPbd_P4-WqKDheX9RP8XH4k
+ *       401:
+ *         description: Invalid credentials or login failed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Wrong credentials.. please login again..
+ */
 userRouter.post("/login",async(req,res)=>{
     try{
         const {username,password}= req.body
