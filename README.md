@@ -83,6 +83,8 @@ The Swagger documentation is configured to provide interactive API documentation
 
 Swagger UI: http://localhost:8000/api-docs
 
+deployment_link = https://url-shortner-ospo.onrender.com/
+
 Troubleshooting
 "No token, authorization denied" Error: Ensure that you include a valid JWT token in the x-auth-token header for authenticated endpoints.
 "URL not found" Error: Verify that the shortUrl parameter in the request is correct and corresponds to an existing shortened URL.
